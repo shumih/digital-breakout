@@ -8,9 +8,11 @@
     Scrim,
   } from "@smui/drawer";
   import Button, { Label } from "@smui/button";
-  import List, { Item, Text, Graphic, Separator, Subheader } from "@smui/list";
+  import List, { Item, Text, Separator, Subheader } from "@smui/list";
   import H6 from "@smui/common/H6.svelte";
+  import MediaQuery from "./MediaQuery.svelte";
   import Nav from "./Nav.svelte";
+  import Icon from "./Icon.svelte";
 
   let myDrawer;
   let myDrawerOpen = true;
@@ -22,24 +24,26 @@
 </script>
 
 <div class="drawer-container">
-  <Drawer>
-    <Header>
-      <Title>Цифровой прорыв 2</Title>
-      <Subtitle>Я ❤️ ДГТУ</Subtitle>
-    </Header>
-    <Content>
-      <List>
-        <Item
-          href="javascript:void(0)"
-          on:click="{() => setActive('home')}"
-          activated="{active === 'home'}"
-        >
-          <Graphic class="material-icons" aria-hidden="true" />
-          <Text>Главная</Text>
-        </Item>
-      </List>
-    </Content>
-  </Drawer>
+  <MediaQuery query="(max-width: 480px)" let:matches>
+    <Drawer variant="{matches ? 'modal' : null}">
+      <Header>
+        <Title>Цифровой прорыв 2</Title>
+        <Subtitle>Я ❤️ ДГТУ</Subtitle>
+      </Header>
+      <Content>
+        <List>
+          <Item
+            href="javascript:void(0)"
+            on:click="{() => setActive('home')}"
+            activated="{active === 'home'}"
+          >
+            <Icon name="courses" width="32" color="darkslateblue" />
+            <Text>Образовательные программы</Text>
+          </Item>
+        </List>
+      </Content>
+    </Drawer>
+  </MediaQuery>
 
   <Scrim />
 
@@ -63,10 +67,23 @@
     z-index: 0;
     height: 100%;
   }
+
   * :global(.mdc-drawer--modal, .mdc-drawer-scrim) {
     /* This is not needed for a page-wide modal. */
     position: absolute;
   }
+
+  * :global(.mdc-drawer .mdc-list-item) {
+    display: flex;
+    flex-flow: column;
+    height: auto;
+    padding: 4px;
+  }
+
+  * :global(.mdc-drawer .mdc-list-item--activated) {
+    color: darkslateblue;
+  }
+
   * :global(.app-content) {
     flex: auto;
     position: relative;
